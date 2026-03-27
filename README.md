@@ -44,6 +44,3 @@ Nesta versão inicial, os dados são gerenciados através de **ArrayLists parale
 
 **Status do Projeto:** Finalizado (Checkpoint 1)
 *Nota: Este código servirá de base para a refatoração para POO no próximo checkpoint.*
-
-### 💡 Próximo Passo:
-Se você já estiver movendo para o CP2, lembre-se de que a principal mudança será criar uma classe `Musica` para substituir esses quatro `ArrayList` por apenas um: `ArrayList<Musica>`.
