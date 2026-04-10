@@ -1,9 +1,9 @@
 public class Musica {
 
-    String titulo;
-    String artista;
-    int duracaoSegundos;
-    String genero;
+    private String titulo;
+    private String artista;
+    private int duracaoSegundos;
+    private String genero;
 
     public Musica(String titulo, String artista, int duracaoSegundos, String genero) {
         this.titulo = titulo;
@@ -32,3 +32,4 @@ public class Musica {
         return this.artista.toLowerCase().contains(busca.toLowerCase());
     }
 }
+

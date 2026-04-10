@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class Usuario {
-    String nome;
-    ArrayList<Playlist> playlists = new ArrayList<>();
+    private String nome;
+    private ArrayList<Playlist> playlists = new ArrayList<>();
 
     public Usuario(String nome) {
         this.nome = nome;
