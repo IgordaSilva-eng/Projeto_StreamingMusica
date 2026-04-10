@@ -1,82 +1,102 @@
-public class Musica {
-    private String titulo;
-    private String artista;
-    private int duracaoSegundos;
-    private String genero;
+import java.util.ArrayList;
+import java.util.Scanner;
 
-    // Lista de gêneros válidos para validação case-insensitive
-    private static final String[] GENEROS_VALIDOS = {"Pop", "Rock", "Jazz", "Eletrônica", "Hip-Hop", "Clássica"};
+public class StreamingMusica {
+    static ArrayList<Musica> acervoGeral = new ArrayList<>();
+    static Usuario usuarioLogado = new Usuario("Igor Silva");
+    static Scanner scanner = new Scanner(System.in);
 
-    // Construtor Parametrizado
-    public Musica(String titulo, String artista, int duracaoSegundos, String genero) {
-        setTitulo(titulo);
-        setArtista(artista);
-        setDuracaoSegundos(duracaoSegundos);
-        setGenero(genero);
+    public static void main(String[] args) {
+        popularDadosTeste();
+        int opcao;
+        do {
+            exibirMenu();
+            opcao = lerInteiro();
+            processarMenu(opcao);
+        } while (opcao != 0);
     }
 
-    // Sobrecarga de Construtor
-    public Musica(String titulo, String artista, int duracaoSegundos) {
-        this(titulo, artista, duracaoSegundos, "Pop");
+    static void exibirMenu() {
+        System.out.println("\n=== STREAMING - CHECKPOINT 3 ===");
+        System.out.println("1. Cadastrar Música\n2. Listar Acervo\n3. Buscar Música");
+        System.out.println("4. Criar Playlist\n5. Gerenciar Playlists\n0. Sair");
+        System.out.print("Opção: ");
     }
 
-    // --- GETTERS E SETTERS COM VALIDAÇÕES ---
-
-    public String getTitulo() { return titulo; }
-
-    public void setTitulo(String titulo) {
-        if (titulo == null || titulo.trim().isEmpty()) {
-            throw new IllegalArgumentException("Título não pode ser nulo ou vazio.");
+    static void processarMenu(int opcao) {
+        switch (opcao) {
+            case 1 -> cadastrarMusica();
+            case 2 -> listarAcervo();
+            case 3 -> buscarMusica();
+            case 4 -> {
+                System.out.print("Nome da nova playlist: ");
+                usuarioLogado.criarPlaylist(scanner.nextLine());
+            }
+            case 5 -> gerenciarPlaylists();
+            case 0 -> System.out.println("Encerrando sistema...");
+            default -> System.out.println("Opção inválida.");
         }
-        this.titulo = titulo.trim();
     }
 
-    public String getArtista() { return artista; }
+    static void cadastrarMusica() {
+        try {
+            System.out.print("Título: "); String t = scanner.nextLine();
+            System.out.print("Artista: "); String a = scanner.nextLine();
+            System.out.print("Duração (segundos): "); int d = lerInteiro();
+            System.out.print("Gênero: "); String g = scanner.nextLine();
 
-    public void setArtista(String artista) {
-        if (artista == null || artista.trim().isEmpty()) {
-            throw new IllegalArgumentException("Artista não pode ser nulo ou vazio.");
+            acervoGeral.add(new Musica(t, a, d, g));
+            System.out.println("✅ Música adicionada ao acervo!");
+        } catch (IllegalArgumentException e) {
+            System.out.println("❌ Erro no cadastro: " + e.getMessage());
         }
-        this.artista = artista.trim();
     }
 
-    public int getDuracaoSegundos() { return duracaoSegundos; }
-
-    public void setDuracaoSegundos(int duracaoSegundos) {
-        if (duracaoSegundos <= 0 || duracaoSegundos >= 3600) {
-            throw new IllegalArgumentException("Duração deve ser entre 1 e 3599 segundos.");
+    static void listarAcervo() {
+        System.out.println("\n--- ACERVO COMPLETO ---");
+        for (int i = 0; i < acervoGeral.size(); i++) {
+            System.out.print((i + 1) + ". ");
+            acervoGeral.get(i).exibir();
         }
-        this.duracaoSegundos = duracaoSegundos;
     }
 
-    public String getGenero() { return genero; }
-
-    public void setGenero(String genero) {
-        for (String g : GENEROS_VALIDOS) {
-            if (g.equalsIgnoreCase(genero)) {
-                this.genero = g; // Salva com a capitalização correta do array
-                return;
+    static void buscarMusica() {
+        System.out.print("Pesquisar título ou artista: ");
+        String busca = scanner.nextLine();
+        for (Musica m : acervoGeral) {
+            if (m.contemTitulo(busca) || m.contemArtista(busca)) {
+                m.exibir();
             }
         }
-        throw new IllegalArgumentException("Gênero inválido. Escolha entre: Pop, Rock, Jazz, Eletrônica, Hip-Hop ou Clássica.");
     }
 
-    // --- MÉTODOS DE COMPORTAMENTO ---
+    static void gerenciarPlaylists() {
+        usuarioLogado.listarPlaylists();
+        if (usuarioLogado.getPlaylists().isEmpty()) return;
 
-    public void exibir() {
-        System.out.printf("🎵 %s | Artista: %s | Duração: %s | Gênero: %s%n",
-                titulo, artista, getDuracaoFormatada(), genero);
+        System.out.print("Selecione o índice da playlist: ");
+        Playlist p = usuarioLogado.getPlaylist(lerInteiro());
+
+        if (p != null) {
+            System.out.println("1. Adicionar do Acervo | 2. Ver Músicas | 0. Voltar");
+            int subOp = lerInteiro();
+            if (subOp == 1) {
+                listarAcervo();
+                System.out.print("Número da música: ");
+                int mIdx = lerInteiro() - 1;
+                if (mIdx >= 0 && mIdx < acervoGeral.size()) p.adicionarMusica(acervoGeral.get(mIdx));
+            } else if (subOp == 2) {
+                p.listarMusicas();
+            }
+        }
     }
 
-    public String getDuracaoFormatada() {
-        return String.format("%02d:%02d", duracaoSegundos / 60, duracaoSegundos % 60);
+    static int lerInteiro() {
+        try { return Integer.parseInt(scanner.nextLine()); } catch (Exception e) { return -1; }
     }
 
-    public boolean contemTitulo(String busca) {
-        return titulo.toLowerCase().contains(busca.toLowerCase());
-    }
-
-    public boolean contemArtista(String busca) {
-        return artista.toLowerCase().contains(busca.toLowerCase());
+    static void popularDadosTeste() {
+        acervoGeral.add(new Musica("Bohemian Rhapsody", "Queen", 354, "Rock"));
+        acervoGeral.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
     }
 }
