@@ -1,43 +1,17 @@
-# 🎵 Projeto Streaming de Música - Checkpoint 2
+# 🎵 Projeto Streaming de Música - Checkpoint 3
 
-Este repositório contém a evolução do Sistema de Streaming, agora reestruturado utilizando o paradigma de **Programação Orientada a Objetos (POO)**. A versão anterior (estruturada) foi substituída por uma arquitetura modular baseada em classes e objetos.
+Este repositório apresenta o Sistema de Streaming refatorado com foco em **Encapsulamento** e **Integridade de Dados**.
 
-## 🎯 Objetivos do CP2
-- Substituir o uso de múltiplos `ArrayList` paralelos por coleções de objetos.
-- Implementar os pilares de **Encapsulamento** e **Composição**.
-- Criar uma hierarquia lógica entre Usuário, Playlists e Músicas.
+## 🎯 Evoluções do CP3
+- **Atributos Privados**: Garantia de que o estado interno das classes só seja acessado via métodos autorizados.
+- **Validação de Setters**: Bloqueio de valores nulos, vazios ou fora do intervalo lógico (ex: duração > 1h).
+- **Sobrecarga de Construtores**: Flexibilidade na criação de objetos utilizando a palavra-chave `this()`.
+- **Tratamento de Exceções**: Uso de `IllegalArgumentException` para impedir a criação de objetos corrompidos.
 
-## 🏗️ Modelagem das Classes
-
-O projeto agora é composto por quatro classes principais:
-
-1.  **`Musica.java`**:
-    * **Atributos**: `titulo`, `artista`, `duracaoSegundos` e `genero`.
-    * **Responsabilidade**: Gerencia os dados da faixa e fornece métodos de formatação (ex: converter segundos para `MM:SS`) e filtros de busca *case-insensitive*.
-
-2.  **`Playlist.java`**:
-    * **Atributos**: `nome` e uma lista (`ArrayList`) de objetos `Musica`.
-    * **Responsabilidade**: Permite a agregação de músicas, remoção por índice e cálculo da duração total da lista.
-
-3.  **`Usuario.java`**:
-    * **Atributos**: `nome` e uma lista de objetos `Playlist`.
-    * **Responsabilidade**: Representa o perfil do cliente, permitindo a criação e o gerenciamento de múltiplas playlists personalizadas.
-
-4.  **`StreamingMusica.java`**:
-    * **Responsabilidade**: Ponto de entrada do sistema (`main`). Orquestra o menu, o acervo geral de músicas e a interação com o usuário.
-
-## 🛠️ Funcionalidades Implementadas
-- **Cadastro de Acervo**: Adição de novas músicas ao banco de dados global.
-- **Busca por Termo**: Localização de faixas por título ou artista (ignorando maiúsculas/minúsculas).
-- **Gestão de Playlists**: Criação de listas, adição de músicas do acervo e exibição de detalhes.
-- **Estatísticas de Áudio**: Cálculo de tempo total e identificação de gêneros.
+## 🛠️ Regras de Validação Aplicadas
+- **Musica**: Título/Artista obrigatórios; Duração entre 1 e 3599s; Gênero validado por lista predefinida.
+- **Playlist/Usuario**: Nomes não podem ser nulos ou vazios.
 
 ## 🚀 Como Executar
-1. Compile todos os arquivos:
-   ```bash
-   javac *.java
-   ```
-2. Execute a classe principal:
-   ```bash
-   java StreamingMusica
-   ```
+1. Compile: `javac *.java`
+2. Execute: `java StreamingMusica`
