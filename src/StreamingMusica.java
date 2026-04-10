@@ -7,7 +7,7 @@ public class Musica {
     // Lista de gêneros válidos para validação case-insensitive
     private static final String[] GENEROS_VALIDOS = {"Pop", "Rock", "Jazz", "Eletrônica", "Hip-Hop", "Clássica"};
 
-    // Construtor Parametrizado (Inicialização Robustas)
+    // Construtor Parametrizado
     public Musica(String titulo, String artista, int duracaoSegundos, String genero) {
         setTitulo(titulo);
         setArtista(artista);
@@ -15,7 +15,7 @@ public class Musica {
         setGenero(genero);
     }
 
-    // Sobrecarga de Construtor (Exemplo: Gênero padrão se não informado)
+    // Sobrecarga de Construtor
     public Musica(String titulo, String artista, int duracaoSegundos) {
         this(titulo, artista, duracaoSegundos, "Pop");
     }

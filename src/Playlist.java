@@ -1,15 +1,27 @@
 import java.util.ArrayList;
 
 public class Playlist {
-
     private String nome;
     private ArrayList<Musica> musicas = new ArrayList<>();
 
     public Playlist(String nome) {
-        this.nome = nome;
+        setNome(nome);
+    }
+
+    public String getNome() { return nome; }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome da playlist não pode ser vazio.");
+        }
+        this.nome = nome.trim();
     }
 
     public void adicionarMusica(Musica musica) {
+        if (musica == null) {
+            System.out.println("❌ Erro: Não é possível adicionar uma música inexistente (null).");
+            return;
+        }
         this.musicas.add(musica);
     }
 
@@ -17,26 +29,27 @@ public class Playlist {
         if (indice >= 0 && indice < this.musicas.size()) {
             this.musicas.remove(indice);
         } else {
-            System.out.println("Erro: Índice de música inválido.");
+            System.out.println("❌ Erro: Índice inválido para remoção.");
         }
     }
 
     public void listarMusicas() {
-        System.out.println("\n--- Músicas da Playlist: " + this.nome + " ---");
-        for (Musica m : this.musicas) {
-            m.exibir();
+        System.out.println("\n--- Playlist: " + nome + " ---");
+        if (musicas.isEmpty()) {
+            System.out.println("A lista está vazia.");
+        } else {
+            for (int i = 0; i < musicas.size(); i++) {
+                System.out.print((i + 1) + ". ");
+                musicas.get(i).exibir();
+            }
         }
     }
 
     public int getDuracaoTotal() {
         int total = 0;
-        for (Musica m : this.musicas) {
-            total += m.duracaoSegundos;
-        }
+        for (Musica m : musicas) total += m.getDuracaoSegundos();
         return total;
     }
 
-    public int getQuantidadeMusicas() {
-        return this.musicas.size();
-    }
+    public ArrayList<Musica> getMusicas() { return musicas; }
 }
