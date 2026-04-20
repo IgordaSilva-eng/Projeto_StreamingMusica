@@ -1,0 +1,35 @@
+public class Musica {
+
+    private String titulo;
+    private String artista;
+    private int duracaoSegundos;
+    private String genero;
+
+    public Musica(String titulo, String artista, int duracaoSegundos, String genero) {
+        this.titulo = titulo;
+        this.artista = artista;
+        this.duracaoSegundos = duracaoSegundos;
+        this.genero = genero;
+    }
+
+    public void exibir() {
+        System.out.println("🎵 " + this.titulo + " | Artista: " + this.artista +
+                " | Duração: " + this.getDuracaoFormatada() +
+                " | Gênero: " + this.genero);
+    }
+
+    public String getDuracaoFormatada() {
+        int minutos = this.duracaoSegundos / 60;
+        int segundos = this.duracaoSegundos % 60;
+        return String.format("%02d:%02d", minutos, segundos);
+    }
+
+    public boolean contemTitulo(String busca) {
+        return this.titulo.toLowerCase().contains(busca.toLowerCase());
+    }
+
+    public boolean contemArtista(String busca) {
+        return this.artista.toLowerCase().contains(busca.toLowerCase());
+    }
+}
+
