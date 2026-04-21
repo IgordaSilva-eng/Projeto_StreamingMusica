@@ -8,7 +8,7 @@ public class UsuarioFree extends Usuario {
     @Override
     public void reproduzirMusica(Musica musica) {
         contadorReproducoes++;
-        // Lógica de anúncio a cada 3 músicas [cite: 61, 84]
+        // Lógica de anúncio a cada 3 músicas
         if (contadorReproducoes % 3 == 0) {
             System.out.println("\nANÚNCIO: Assine Premium e ouça sem interrupções!");
         }

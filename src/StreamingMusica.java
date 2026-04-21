@@ -8,6 +8,7 @@ public class StreamingMusica {
 
     public static void main(String[] args) {
         popularDadosTeste();
+        configurarUsuario();
 
         int opcao;
         do {
@@ -17,9 +18,26 @@ public class StreamingMusica {
         } while (opcao != 0);
     }
 
+    // Atendendo as novas classes do Checkpoint 4
+    static void configurarUsuario() {
+        System.out.println("=== Bem-vindo ao Streaming ===");
+        System.out.print("Nome: "); String nome = scanner.nextLine();
+        System.out.print("Email: "); String email = scanner.nextLine();
+        System.out.print("Tipo de conta (1-Free, 2-Premium): ");
+        int tipo = lerInteiro();
+
+        if (tipo == 2) {
+            System.out.print("Plano (Mensal/Anual): ");
+            String plano = scanner.nextLine();
+            usuarioLogado = new UsuarioPremium(nome, email, plano);
+        } else {
+            usuarioLogado = new UsuarioFree(nome, email);
+        }
+    }
+
     static void exibirMenu() {
-        System.out.println("\n=== STREAMING - CHECKPOINT 3 ===");
-        System.out.println("1. Cadastrar Música\n2. Listar Acervo\n3. Buscar Música");
+        System.out.println("\n=== STREAMING - CHECKPOINT 4 ===");
+        System.out.println("1. Cadastrar Música\n2. Listar Acervo\n3. Ouvir Música (Novo)");
         System.out.println("4. Criar Playlist\n5. Gerenciar Playlists\n0. Sair");
         System.out.print("Opção: ");
     }
@@ -28,7 +46,7 @@ public class StreamingMusica {
         switch (opcao) {
             case 1 -> cadastrarMusica();
             case 2 -> listarAcervo();
-            case 3 -> buscarMusica();
+            case 3 -> ouvirMusica(); // Implementação polimorfismo
             case 4 -> {
                 System.out.print("Nome da nova playlist: ");
                 usuarioLogado.criarPlaylist(scanner.nextLine());
@@ -36,6 +54,16 @@ public class StreamingMusica {
             case 5 -> gerenciarPlaylists();
             case 0 -> System.out.println("Encerrando sistema...");
             default -> System.out.println("Opção inválida.");
+        }
+    }
+
+    static void ouvirMusica() {
+        listarAcervo();
+        System.out.print("Escolha o número da música para ouvir: ");
+        int idx = lerInteiro() - 1;
+        if (idx >= 0 && idx < acervoGeral.size()) {
+            // Implementação polimorfismo
+            usuarioLogado.reproduzirMusica(acervoGeral.get(idx));
         }
     }
 
@@ -47,9 +75,9 @@ public class StreamingMusica {
             System.out.print("Gênero: "); String g = scanner.nextLine();
 
             acervoGeral.add(new Musica(t, a, d, g));
-            System.out.println("✅ Música adicionada ao acervo!");
+            System.out.println("Música adicionada ao acervo!");
         } catch (IllegalArgumentException e) {
-            System.out.println("❌ Erro no cadastro: " + e.getMessage());
+            System.out.println("Erro no cadastro: " + e.getMessage());
         }
     }
 
