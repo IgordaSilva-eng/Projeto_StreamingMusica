@@ -11,7 +11,7 @@ public class Musica {
         this.duracaoSegundos = duracaoSegundos;
         this.genero = genero;
     }
-    
+
     public String getTitulo() {
         return this.titulo;
     }
