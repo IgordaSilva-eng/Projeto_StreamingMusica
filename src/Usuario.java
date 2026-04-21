@@ -1,11 +1,18 @@
 import java.util.ArrayList;
 
 public class Usuario {
-    private String nome;
-    private ArrayList<Playlist> playlists = new ArrayList<>();
+    protected String nome;
+    protected String email;
+    protected ArrayList<Musica> historicoReproducao = new ArrayList<>();
+    protected ArrayList<Playlist> playlists = new ArrayList<>();
 
-    public Usuario(String nome) {
+    public Usuario(String nome, String email) {
         setNome(nome);
+        setEmail(email);
+    }
+    public void reproduzirMusica(Musica musica){
+        System.out.println("Reproduzindo Musica: " + musica.toString());
+        historicoReproducao.add(musica);
     }
 
     public String getNome() { return nome; }
@@ -16,6 +23,8 @@ public class Usuario {
         }
         this.nome = nome.trim();
     }
+    public String getEmail() { return email; }
+    public void setEmail(String email) {this.email = email.trim();}
 
     public void criarPlaylist(String nomePlaylist) {
         try {

@@ -3,11 +3,12 @@ import java.util.Scanner;
 
 public class StreamingMusica {
     static ArrayList<Musica> acervoGeral = new ArrayList<>();
-    static Usuario usuarioLogado = new Usuario("Igor Silva");
+    static Usuario usuarioLogado;
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         popularDadosTeste();
+
         int opcao;
         do {
             exibirMenu();
