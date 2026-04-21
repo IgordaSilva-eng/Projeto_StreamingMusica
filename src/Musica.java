@@ -16,6 +16,10 @@ public class Musica {
         return this.titulo;
     }
 
+    public int getDuracaoSegundos() {
+        return this.duracaoSegundos;
+    }
+
     public void exibir() {
         System.out.println("🎵 " + this.titulo + " | Artista: " + this.artista +
                 " | Duração: " + this.getDuracaoFormatada() +
