@@ -1,0 +1,55 @@
+import java.util.ArrayList;
+
+public class Playlist {
+    private String nome;
+    private ArrayList<Musica> musicas = new ArrayList<>();
+
+    public Playlist(String nome) {
+        setNome(nome);
+    }
+
+    public String getNome() { return nome; }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("O nome da playlist não pode ser vazio.");
+        }
+        this.nome = nome.trim();
+    }
+
+    public void adicionarMusica(Musica musica) {
+        if (musica == null) {
+            System.out.println("❌ Erro: Não é possível adicionar uma música inexistente (null).");
+            return;
+        }
+        this.musicas.add(musica);
+    }
+
+    public void removerMusica(int indice) {
+        if (indice >= 0 && indice < this.musicas.size()) {
+            this.musicas.remove(indice);
+        } else {
+            System.out.println("❌ Erro: Índice inválido para remoção.");
+        }
+    }
+
+    public void listarMusicas() {
+        System.out.println("\n--- Playlist: " + nome + " ---");
+        if (musicas.isEmpty()) {
+            System.out.println("A lista está vazia.");
+        } else {
+            for (int i = 0; i < musicas.size(); i++) {
+                System.out.print((i + 1) + ". ");
+                musicas.get(i).exibir();
+            }
+        }
+    }
+
+    public int getDuracaoTotal() {
+        int total = 0;
+        for (Musica m : musicas) total += m.getDuracaoSegundos();
+        return total;
+    }
+
+    public ArrayList<Musica> getMusicas() { return musicas; }
+}
