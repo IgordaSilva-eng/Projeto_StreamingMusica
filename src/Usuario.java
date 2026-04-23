@@ -20,15 +20,22 @@ public class Usuario {
 
     public String getNome() { return nome; }
 
+    public String getEmail() { return email; }
+
     public void setNome(String nome) {
         if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome do usuário é obrigatório.");
         }
         this.nome = nome.trim();
     }
-    public String getEmail() { return email; }
-    public void setEmail(String email) {this.email = email.trim();}
 
+    public void setEmail(String email){
+        if (email == null){
+            throw new IllegalArgumentException("O email não pode ser nulo");
+        }
+        this.email = email.trim();
+    }
+    
     public void criarPlaylist(String nomePlaylist) {
         try {
             this.playlists.add(new Playlist(nomePlaylist));
