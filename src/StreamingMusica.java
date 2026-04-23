@@ -158,5 +158,6 @@ public class StreamingMusica {
     static void popularDadosTeste() {
         acervoGeral.add(new Musica("Bohemian Rhapsody", "Queen", 354, "Rock"));
         acervoGeral.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
+        acervoGeral.add(new Musica("Spoken For", "FLAVOR FOLEY", 244, "Pop"));
     }
 }

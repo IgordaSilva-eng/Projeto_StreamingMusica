@@ -19,7 +19,7 @@ public class Playlist {
 
     public void adicionarMusica(Musica musica) {
         if (musica == null) {
-            System.out.println("❌ Erro: Não é possível adicionar uma música inexistente (null).");
+            System.out.println("Erro: Não é possível adicionar uma música inexistente (null).");
             return;
         }
         this.musicas.add(musica);
@@ -29,7 +29,7 @@ public class Playlist {
         if (indice >= 0 && indice < this.musicas.size()) {
             this.musicas.remove(indice);
         } else {
-            System.out.println("❌ Erro: Índice inválido para remoção.");
+            System.out.println("Erro: Índice inválido para remoção.");
         }
     }
 
