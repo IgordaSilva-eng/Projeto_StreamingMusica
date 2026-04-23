@@ -21,17 +21,36 @@ public class StreamingMusica {
     // Atendendo as novas classes do Checkpoint 4
     static void configurarUsuario() {
         System.out.println("=== Bem-vindo ao Streaming ===");
-        System.out.print("Nome: "); String nome = scanner.nextLine();
-        System.out.print("Email: "); String email = scanner.nextLine();
-        System.out.print("Tipo de conta (1-Free, 2-Premium): ");
-        int tipo = lerInteiro();
+        boolean sucesso = false;
 
-        if (tipo == 2) {
-            System.out.print("Plano (Mensal/Anual): ");
-            String plano = scanner.nextLine();
-            usuarioLogado = new UsuarioPremium(nome, email, plano);
-        } else {
-            usuarioLogado = new UsuarioFree(nome, email);
+        while (!sucesso) {
+            try {
+                System.out.print("Nome: ");
+                String nome = scanner.nextLine();
+
+                System.out.print("Email (ex: usuario@servico): ");
+                String email = scanner.nextLine();
+
+                System.out.print("Tipo de conta (1-Free, 2-Premium): ");
+                int tipo = lerInteiro();
+
+                if (tipo == 2) {
+                    System.out.print("Plano (Mensal/Anual): ");
+                    String plano = scanner.nextLine();
+                    
+                    usuarioLogado = new UsuarioPremium(nome, email, plano);
+                } else {
+                    usuarioLogado = new UsuarioFree(nome, email);
+                }
+
+                sucesso = true;
+                System.out.println("✅ Usuário configurado com sucesso!");
+
+            } catch (IllegalArgumentException e) {
+
+                System.out.println("❌ Erro nos dados: " + e.getMessage());
+                System.out.println("Tente novamente.\n");
+            }
         }
     }
 
