@@ -20,35 +20,47 @@ public class StreamingMusica {
 
     // Atendendo as novas classes do Checkpoint 4
     static void configurarUsuario() {
-        System.out.println("=== Bem-vindo ao Streaming ===");
+        System.out.println("=== BEM-VINDO AO STREAMING ===");
         boolean sucesso = false;
 
         while (!sucesso) {
             try {
-                System.out.print("Nome: ");
+                System.out.print("Digite seu nome: ");
                 String nome = scanner.nextLine();
-
-                System.out.print("Email (ex: usuario@servico): ");
+                System.out.print("Digite seu email: ");
                 String email = scanner.nextLine();
 
-                System.out.print("Tipo de conta (1-Free, 2-Premium): ");
+                System.out.println("\nEscolha o tipo de conta:");
+                System.out.println("1. Free (Gratuito)");
+                System.out.println("2. Premium (Pago)");
+                System.out.print("Escolha: ");
                 int tipo = lerInteiro();
 
                 if (tipo == 2) {
-                    System.out.print("Plano (Mensal/Anual): ");
-                    String plano = scanner.nextLine();
-                    
-                    usuarioLogado = new UsuarioPremium(nome, email, plano);
+                    System.out.println("\nEscolha o plano Premium:");
+                    System.out.println("1. Mensal (R$ 19,90)");
+                    System.out.println("2. Anual (R$ 199,00)");
+                    System.out.println("3. Familiar (R$ 29,90)");
+                    System.out.print("Escolha: ");
+                    int opcaoPlano = lerInteiro();
+
+                    String planoEscolhido = switch (opcaoPlano) {
+                        case 1 -> "Mensal";
+                        case 2 -> "Anual";
+                        case 3 -> "Familiar";
+                        default -> throw new IllegalArgumentException("Opção de plano inválida!");
+                    };
+
+                    usuarioLogado = new UsuarioPremium(nome, email, planoEscolhido);
                 } else {
                     usuarioLogado = new UsuarioFree(nome, email);
                 }
 
                 sucesso = true;
-                System.out.println("✅ Usuário configurado com sucesso!");
+                System.out.println("\n✅ Conta criada com sucesso!");
 
             } catch (IllegalArgumentException e) {
-
-                System.out.println("❌ Erro nos dados: " + e.getMessage());
+                System.out.println("\n❌ Erro: " + e.getMessage());
                 System.out.println("Tente novamente.\n");
             }
         }
