@@ -57,11 +57,11 @@ public class StreamingMusica {
                 }
 
                 sucesso = true;
-                System.out.println("\n✅ Conta criada com sucesso!");
+                System.out.println("\n✅ Conta criada com sucesso!\n" + usuarioLogado.getNome());
 
             } catch (IllegalArgumentException e) {
                 System.out.println("\n❌ Erro: " + e.getMessage());
-                System.out.println("Tente novamente.\n");
+                System.out.println("Por favor, preencha os dados novamente.\n");
             }
         }
     }

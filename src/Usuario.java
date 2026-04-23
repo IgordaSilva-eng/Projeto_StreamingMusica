@@ -30,12 +30,17 @@ public class Usuario {
     }
 
     public void setEmail(String email){
-        if (email == null){
+        if (email == null || email.trim().isEmpty()){
             throw new IllegalArgumentException("O email não pode ser nulo");
+        }
+
+        // Verifica o formato (deve conter '@' e não pode ser apenas o '@')
+        if (!email.contains("@") || email.trim().equals("@")) {
+            throw new IllegalArgumentException("Formato de e-mail inválido. O e-mail deve conter '@', por exemplo: email@serviço.");
         }
         this.email = email.trim();
     }
-    
+
     public void criarPlaylist(String nomePlaylist) {
         try {
             this.playlists.add(new Playlist(nomePlaylist));
