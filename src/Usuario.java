@@ -9,6 +9,9 @@ public class Usuario {
     public Usuario(String nome, String email) {
         setNome(nome);
         setEmail(email);
+
+        this.playlists = new ArrayList<>();
+        this.historicoReproducao = new ArrayList<>();
     }
     public void reproduzirMusica(Musica musica){
         System.out.println("Reproduzindo Musica: " + musica.getTitulo());
