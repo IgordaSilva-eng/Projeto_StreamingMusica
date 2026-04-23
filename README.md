@@ -1,36 +1,46 @@
 # 🎵 Projeto Streaming de Música - Checkpoint 4
 
-Este repositório apresenta a evolução do Sistema de Streaming, agora focado em **Herança**, **Polimorfismo** e **Reutilização de Código**.
+Este repositório apresenta a evolução do Sistema de Streaming, agora integrando conceitos avançados de Programação Orientada a Objetos para gerenciar diferentes tipos de usuários e experiências de reprodução.
 
-## 🎯 Evoluções do CP4
+## 🎯 Evoluções do CP4 (Herança e Polimorfismo)
 
-Nesta etapa, o sistema foi refatorado para suportar diferentes tipos de usuários, utilizando os conceitos avançados de POO:
+Nesta etapa, o foco foi a especialização das classes e a reutilização de código:
 
-- **Herança (`extends`)**: A classe `Usuario` agora serve como superclasse para `UsuarioFree` e `UsuarioPremium`, permitindo o compartilhamento de atributos (nome, email) e métodos (criar playlist) sem duplicidade de código.
-- **Polimorfismo de Sobrescrita (`@Override`)**: O método `reproduzirMusica` possui comportamentos distintos dependendo do tipo de conta:
-    - **Usuario Free**: Exibe anúncios a cada 3 músicas reproduzidas.
-    - **Usuario Premium**: Reproduz músicas em alta qualidade e permite funcionalidades exclusivas.
-- **Modificadores de Acesso (`protected`)**: Uso do modificador `protected` na classe base para permitir que as subclasses acessem diretamente atributos como o `historicoReproducao`.
+- **Herança**: Implementação da classe base `Usuario` e suas subclasses `UsuarioFree` e `UsuarioPremium`.
+- **Polimorfismo**: O método `reproduzirMusica()` foi sobrescrito para oferecer comportamentos distintos (anúncios para Free vs. Alta Qualidade para Premium).
+- **Gestão de Acervo**: Melhorias na busca de músicas e gerenciamento de playlists por usuário.
+- **Robustez**: Implementação de blocos `try-catch` no `main` para lidar com entradas inválidas do usuário durante o cadastro.
 
-## 🛠️ Estrutura de Classes
+## 🛠️ Funcionalidades por Nível de Conta
 
-### 1. Usuario (Base)
-Define as regras comuns a todos os usuários, como validação de nome e gestão de playlists.
+### **Usuário Free**
+- **Publicidade**: Exibe um anúncio a cada 3 músicas reproduzidas.
+- **Limite de Playlists**: Restrito à criação de no máximo 3 playlists.
 
-### 2. UsuarioFree (Subclasse)
-Implementa a lógica de monetização por anúncios. Possui um contador interno de reproduções.
+### **Usuário Premium**
+- **Qualidade Superior**: Reprodução de áudio em alta fidelidade.
+- **Download**: Funcionalidade exclusiva para baixar músicas para audição offline.
+- **Sem Limites**: Criação ilimitada de playlists e sem interrupções publicitárias.
 
-### 3. UsuarioPremium (Subclasse)
-Focada em experiência superior. Inclui o atributo de `plano` e o método exclusivo `baixarMusica`.
+## 🏗️ Estrutura do Código (Trechos Relevantes)
 
-### 4. Musica e Playlist
-Classes de suporte com encapsulamento rigoroso e métodos de busca/exibição formatada.
+### Polimorfismo na Prática
+O método `reproduzirMusica` exemplifica como o sistema se comporta de forma diferente dependendo do objeto real em memória:
 
-## 🚀 Novas Funcionalidades na Main
-- **Configuração de Perfil**: Ao iniciar, o sistema solicita o tipo de conta para instanciar o objeto correto.
-- **Ouvir Música**: Implementação de um fluxo de reprodução que dispara o comportamento polimórfico definido nas subclasses.
+```java
+// Em UsuarioFree.java
+@Override
+public void reproduzirMusica(Musica musica) {
+    contadorReproducoes++;
+    if (contadorReproducoes % 3 == 0) {
+        exibirAnuncio(); 
+    }
+    super.reproduzirMusica(musica);
+}
 
-## 🛠️ Como Executar
-1. Certifique-se de ter todos os arquivos `.java` na mesma pasta.
-2. Compile: `javac *.java`
-3. Execute: `java StreamingMusica`
+// Em UsuarioPremium.java
+@Override
+public void reproduzirMusica(Musica musica) {
+    System.out.println("🎵 Reproduzindo em ALTA QUALIDADE: " + musica.getTitulo());
+    this.historicoReproducao.add(musica);
+}
