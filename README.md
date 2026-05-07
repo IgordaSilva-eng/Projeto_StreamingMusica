@@ -1,46 +1,42 @@
-# 🎵 Projeto Streaming de Música - Checkpoint 4
+# 🎵 Projeto Streaming de Música - Checkpoint 5
 
-Este repositório apresenta a evolução do Sistema de Streaming, agora integrando conceitos avançados de Programação Orientada a Objetos para gerenciar diferentes tipos de usuários e experiências de reprodução.
+Este repositório apresenta a evolução do Sistema de Streaming, agora focado na consolidação do polimorfismo avançado, validações de tipo em tempo de execução e proteção estrutural de código.
 
-## 🎯 Evoluções do CP4 (Herança e Polimorfismo)
+## 🎯 Evoluções do CP5 (Polimorfismo Avançado e Casting)
 
-Nesta etapa, o foco foi a especialização das classes e a reutilização de código:
+Nesta etapa, o sistema deixou de ser mono-utilizador e passou a gerir múltiplas contas simultaneamente através de estruturas polimórficas:
 
-- **Herança**: Implementação da classe base `Usuario` e suas subclasses `UsuarioFree` e `UsuarioPremium`.
-- **Polimorfismo**: O método `reproduzirMusica()` foi sobrescrito para oferecer comportamentos distintos (anúncios para Free vs. Alta Qualidade para Premium).
-- **Gestão de Acervo**: Melhorias na busca de músicas e gerenciamento de playlists por usuário.
-- **Robustez**: Implementação de blocos `try-catch` no `main` para lidar com entradas inválidas do usuário durante o cadastro.
+- **Listas Polimórficas**: Implementação de um `ArrayList<Usuario>` que unifica todos os tipos de conta, permitindo iterações genéricas.
+- **Validação de Tipos (`instanceof`)**: Mecanismo implementado para separar o comportamento e gerar estatísticas precisas consoante o tipo de conta (Free ou Premium) na lista genérica.
+- **Casting (Downcasting)**: Conversão segura de tipos de dados genéricos para tipos específicos, permitindo acesso a métodos exclusivos (ex: verificar o plano de um utilizador Premium).
+- **Proteção de Código (`final`)**: Blindagem de métodos críticos de negócio (validação de e-mail) e classes topo de hierarquia para impedir heranças indesejadas.
 
-## 🛠️ Funcionalidades por Nível de Conta
+## 🛠️ Novas Funcionalidades
 
-### **Usuário Free**
-- **Publicidade**: Exibe um anúncio a cada 3 músicas reproduzidas.
-- **Limite de Playlists**: Restrito à criação de no máximo 3 playlists.
+### **Sistema Multi-Utilizador**
+- Login dinâmico que altera o estado do sistema consoante o nível de acesso do utilizador selecionado.
+- Menu segregado que reconhece e exibe a patente da conta ativa.
 
-### **Usuário Premium**
-- **Qualidade Superior**: Reprodução de áudio em alta fidelidade.
-- **Download**: Funcionalidade exclusiva para baixar músicas para audição offline.
-- **Sem Limites**: Criação ilimitada de playlists e sem interrupções publicitárias.
+### **Playlists Automáticas (Herança)**
+- **Critérios Inteligentes**: Geração de listas baseadas em parâmetros como "Top Mais Tocadas", "Recomendadas" e "Recentes".
+- Atualização dinâmica varrendo o acervo global e adicionando os itens consoante a regra de negócio.
+
+### **Estatísticas Globais**
+- Relatório em tempo real do sistema, contabilizando a percentagem de reproduções divididas entre contas Free e Premium, além da contagem total de anúncios exibidos.
 
 ## 🏗️ Estrutura do Código (Trechos Relevantes)
 
-### Polimorfismo na Prática
-O método `reproduzirMusica` exemplifica como o sistema se comporta de forma diferente dependendo do objeto real em memória:
+### ArrayList Polimórfico e `instanceof`
+O cálculo de estatísticas exemplifica a iteração sobre uma lista genérica e a identificação do objeto real em memória:
 
 ```java
-// Em UsuarioFree.java
-@Override
-public void reproduzirMusica(Musica musica) {
-    contadorReproducoes++;
-    if (contadorReproducoes % 3 == 0) {
-        exibirAnuncio(); 
+// Em StreamingMusica.java
+for (Usuario u : usuarios) {
+    if (u instanceof UsuarioPremium) {
+        premiumUsers++;
+        premiumRep += u.getTotalReproducoes();
+    } else if (u instanceof UsuarioFree) {
+        freeUsers++;
+        freeRep += u.getTotalReproducoes();
     }
-    super.reproduzirMusica(musica);
-}
-
-// Em UsuarioPremium.java
-@Override
-public void reproduzirMusica(Musica musica) {
-    System.out.println("🎵 Reproduzindo em ALTA QUALIDADE: " + musica.getTitulo());
-    this.historicoReproducao.add(musica);
 }
