@@ -2,162 +2,157 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class StreamingMusica {
-    static ArrayList<Musica> acervoGeral = new ArrayList<>();
-    static Usuario usuarioLogado;
+    static ArrayList<Musica> acervo = new ArrayList<>();
+    static ArrayList<Usuario> usuarios = new ArrayList<>();
+    static Usuario usuarioLogado = null;
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        popularDadosTeste();
-        configurarUsuario();
-
+        popularDados();
         int opcao;
         do {
-            exibirMenu();
-            opcao = lerInteiro();
-            processarMenu(opcao);
+            System.out.println("\n=== SISTEMA DE STREAMING ===");
+            System.out.println("1. Criar novo usuário");
+            System.out.println("2. Login");
+            System.out.println("3. Listar usuários");
+            System.out.println("4. Estatísticas do Sistema");
+            System.out.println("0. Sair");
+            System.out.print("\nEscolha: ");
+            opcao = Integer.parseInt(scanner.nextLine());
+
+            switch (opcao) {
+                case 1 -> criarUsuario();
+                case 2 -> realizarLogin();
+                case 3 -> listarUsuarios();
+                case 4 -> exibirEstatisticas();
+            }
         } while (opcao != 0);
     }
 
-    // Atendendo as novas classes do Checkpoint 4
-    static void configurarUsuario() {
-        System.out.println("=== BEM-VINDO AO STREAMING ===");
-        boolean sucesso = false;
+    public static void criarUsuario() {
+        System.out.print("Nome: "); String nome = scanner.nextLine();
+        System.out.print("Email: "); String email = scanner.nextLine();
+        System.out.println("1. Free | 2. Premium");
+        int tipo = Integer.parseInt(scanner.nextLine());
 
-        while (!sucesso) {
-            try {
-                System.out.print("Digite seu nome: ");
-                String nome = scanner.nextLine();
-                System.out.print("Digite seu email: ");
-                String email = scanner.nextLine();
+        if (tipo == 1) {
+            usuarios.add(new UsuarioFree(nome, email));
+        } else {
+            System.out.print("Plano (Mensal/Anual/Familiar): ");
+            usuarios.add(new UsuarioPremium(nome, email, scanner.nextLine()));
+        }
+        System.out.println("✅ Usuário criado!");
+    }
 
-                System.out.println("\nEscolha o tipo de conta:");
-                System.out.println("1. Free (Gratuito)");
-                System.out.println("2. Premium (Pago)");
-                System.out.print("Escolha: ");
-                int tipo = lerInteiro();
+    public static void listarUsuarios() {
+        System.out.println("\nUsuários cadastrados:");
+        for (int i = 0; i < usuarios.size(); i++) {
+            Usuario u = usuarios.get(i);
+            // Uso de instanceof para determinar o tipo na listagem
+            String tipo = (u instanceof UsuarioPremium) ? "Premium" : "Free";
+            System.out.println((i + 1) + ". " + u.getNome() + " (" + tipo + ")");
+        }
+    }
 
-                if (tipo == 2) {
-                    System.out.println("\nEscolha o plano Premium:");
-                    System.out.println("1. Mensal (R$ 19,90)");
-                    System.out.println("2. Anual (R$ 199,00)");
-                    System.out.println("3. Familiar (R$ 29,90)");
-                    System.out.print("Escolha: ");
-                    int opcaoPlano = lerInteiro();
+    public static void realizarLogin() {
+        listarUsuarios();
+        System.out.print("\nEscolha o usuário: ");
+        int id = Integer.parseInt(scanner.nextLine()) - 1;
 
-                    String planoEscolhido = switch (opcaoPlano) {
-                        case 1 -> "Mensal";
-                        case 2 -> "Anual";
-                        case 3 -> "Familiar";
-                        default -> throw new IllegalArgumentException("Opção de plano inválida!");
-                    };
+        if (id >= 0 && id < usuarios.size()) {
+            usuarioLogado = usuarios.get(id);
+            String tipo = (usuarioLogado instanceof UsuarioPremium) ? "Premium" : "Free";
+            System.out.println("✅ Login realizado: " + usuarioLogado.getNome() + " (" + tipo + ")");
+            menuPlayer();
+        } else {
+            System.out.println("❌ Usuário inválido.");
+        }
+    }
 
-                    usuarioLogado = new UsuarioPremium(nome, email, planoEscolhido);
-                } else {
-                    usuarioLogado = new UsuarioFree(nome, email);
-                }
+    static void menuPlayer() {
+        while (usuarioLogado != null) {
+            System.out.println("\n--- MENU DE " + usuarioLogado.getNome().toUpperCase() + " ---");
+            System.out.println("1. Ouvir Música");
+            System.out.println("2. Gerar Playlist Automática");
+            System.out.println("0. Logout");
+            System.out.print("Escolha: ");
+            int op = Integer.parseInt(scanner.nextLine());
 
-                sucesso = true;
-                System.out.println("\n✅ Conta criada com sucesso!\n" + usuarioLogado.getNome());
-
-            } catch (IllegalArgumentException e) {
-                System.out.println("\n❌ Erro: " + e.getMessage());
-                System.out.println("Por favor, preencha os dados novamente.\n");
+            if (op == 1) {
+                // Simulação de ouvir uma música do acervo para gerar dados para estatísticas
+                usuarioLogado.reproduzirMusica(acervo.get(0));
+            } else if (op == 2) {
+                gerarPlaylistAutomatica();
+            } else if (op == 0) {
+                usuarioLogado = null;
             }
         }
     }
 
-    static void exibirMenu() {
-        System.out.println("\n=== STREAMING - CHECKPOINT 4 ===");
-        System.out.println("1. Cadastrar Música\n2. Listar Acervo\n3. Ouvir Música (Novo)");
-        System.out.println("4. Criar Playlist\n5. Gerenciar Playlists\n0. Sair");
-        System.out.print("Opção: ");
+    static void gerarPlaylistAutomatica() {
+        System.out.println("\n=== PLAYLISTS AUTOMÁTICAS ===");
+        System.out.println("1. Top 10 Mais Tocadas");
+        System.out.println("2. Recomendadas para Você");
+        System.out.println("3. Adicionadas Recentemente");
+        System.out.print("\nEscolha: ");
+        int op = Integer.parseInt(scanner.nextLine());
+
+        String titulo = "";
+        String crit = "";
+        if (op == 1) { titulo = "Top 10 Mais Tocadas"; crit = "top"; }
+        else if (op == 2) { titulo = "Recomendadas para Você"; crit = "recomendadas"; }
+        else if (op == 3) { titulo = "Adicionadas Recentemente"; crit = "recentes"; }
+        else return;
+
+        System.out.println("🤖 Gerando playlist \"" + titulo + "\"...");
+        PlaylistAutomatica pa = new PlaylistAutomatica(titulo, crit);
+        pa.atualizar(acervo);
+        usuarioLogado.getPlaylists().add(pa);
+        System.out.println("✅ Playlist criada com " + pa.getMusicas().size() + " músicas!");
     }
 
-    static void processarMenu(int opcao) {
-        switch (opcao) {
-            case 1 -> cadastrarMusica();
-            case 2 -> listarAcervo();
-            case 3 -> ouvirMusica(); // Implementação polimorfismo
-            case 4 -> {
-                System.out.print("Nome da nova playlist: ");
-                usuarioLogado.criarPlaylist(scanner.nextLine());
-            }
-            case 5 -> gerenciarPlaylists();
-            case 0 -> System.out.println("Encerrando sistema...");
-            default -> System.out.println("Opção inválida.");
-        }
-    }
+    static void exibirEstatisticas() {
+        int freeUsers = 0, premiumUsers = 0;
+        int freeRep = 0, premiumRep = 0;
 
-    static void ouvirMusica() {
-        listarAcervo();
-        System.out.print("Escolha o número da música para ouvir: ");
-        int idx = lerInteiro() - 1;
-        if (idx >= 0 && idx < acervoGeral.size()) {
-            // Implementação polimorfismo
-            usuarioLogado.reproduzirMusica(acervoGeral.get(idx));
-        }
-    }
-
-    static void cadastrarMusica() {
-        try {
-            System.out.print("Título: "); String t = scanner.nextLine();
-            System.out.print("Artista: "); String a = scanner.nextLine();
-            System.out.print("Duração (segundos): "); int d = lerInteiro();
-            System.out.print("Gênero: "); String g = scanner.nextLine();
-
-            acervoGeral.add(new Musica(t, a, d, g));
-            System.out.println("Música adicionada ao acervo!");
-        } catch (IllegalArgumentException e) {
-            System.out.println("Erro no cadastro: " + e.getMessage());
-        }
-    }
-
-    static void listarAcervo() {
-        System.out.println("\n--- ACERVO COMPLETO ---");
-        for (int i = 0; i < acervoGeral.size(); i++) {
-            System.out.print((i + 1) + ". ");
-            acervoGeral.get(i).exibir();
-        }
-    }
-
-    static void buscarMusica() {
-        System.out.print("Pesquisar título ou artista: ");
-        String busca = scanner.nextLine();
-        for (Musica m : acervoGeral) {
-            if (m.contemTitulo(busca) || m.contemArtista(busca)) {
-                m.exibir();
+        // Varrendo a lista polimórfica com instanceof
+        for (Usuario u : usuarios) {
+            if (u instanceof UsuarioPremium) {
+                premiumUsers++;
+                premiumRep += u.getTotalReproducoes();
+            } else if (u instanceof UsuarioFree) {
+                freeUsers++;
+                freeRep += u.getTotalReproducoes();
             }
         }
+
+        int totalUsers = usuarios.size();
+        int totalRep = freeRep + premiumRep;
+
+        // Evitando divisão por zero no cálculo da porcentagem
+        int pctFree = (totalRep == 0) ? 0 : (freeRep * 100) / totalRep;
+        int pctPremium = (totalRep == 0) ? 0 : (premiumRep * 100) / totalRep;
+
+        System.out.println("\n=== ESTATÍSTICAS DO SISTEMA ===");
+        System.out.println("Total de usuários: " + totalUsers);
+        System.out.println("- Free: " + freeUsers + " usuários");
+        System.out.println("- Premium: " + premiumUsers + " usuários");
+
+        System.out.println("\nReproduções totais: " + totalRep);
+        System.out.println("- Free: " + freeRep + " reproduções (" + pctFree + "%)");
+        System.out.println("- Premium: " + premiumRep + " reproduções (" + pctPremium + "%)");
+
+        System.out.println("\nAnúncios exibidos: " + UsuarioFree.totalAnunciosGlobais);
     }
 
-    static void gerenciarPlaylists() {
-        usuarioLogado.listarPlaylists();
-        if (usuarioLogado.getPlaylists().isEmpty()) return;
+    static void popularDados() {
+        // População de dados para facilitar os testes iniciais e reproduzir o exemplo do PDF
+        acervo.add(new Musica("Spoken For", "Flavor Foley", 244, "Pop"));
+        acervo.add(new Musica("Bohemian Rhapsody", "Queen", 354, "Rock"));
+        acervo.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
 
-        System.out.print("Selecione o índice da playlist: ");
-        Playlist p = usuarioLogado.getPlaylist(lerInteiro());
-
-        if (p != null) {
-            System.out.println("1. Adicionar do Acervo | 2. Ver Músicas | 0. Voltar");
-            int subOp = lerInteiro();
-            if (subOp == 1) {
-                listarAcervo();
-                System.out.print("Número da música: ");
-                int mIdx = lerInteiro() - 1;
-                if (mIdx >= 0 && mIdx < acervoGeral.size()) p.adicionarMusica(acervoGeral.get(mIdx));
-            } else if (subOp == 2) {
-                p.listarMusicas();
-            }
-        }
-    }
-
-    static int lerInteiro() {
-        try { return Integer.parseInt(scanner.nextLine()); } catch (Exception e) { return -1; }
-    }
-
-    static void popularDadosTeste() {
-        acervoGeral.add(new Musica("Bohemian Rhapsody", "Queen", 354, "Rock"));
-        acervoGeral.add(new Musica("Billie Jean", "Michael Jackson", 293, "Pop"));
-        acervoGeral.add(new Musica("Spoken For", "FLAVOR FOLEY", 244, "Pop"));
+        usuarios.add(new UsuarioFree("Juliano", "juliano@email.com"));
+        usuarios.add(new UsuarioPremium("Igor", "igor@email.com", "Anual"));
+        usuarios.add(new UsuarioFree("Gabryel", "gabryel@email.com"));
     }
 }
