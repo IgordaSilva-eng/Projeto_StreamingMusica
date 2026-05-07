@@ -40,3 +40,10 @@ for (Usuario u : usuarios) {
         freeRep += u.getTotalReproducoes();
     }
 }
+
+🚀 Como Executar
+Certifique-se de ter o JDK instalado.
+
+Compile todos os ficheiros: javac *.java
+
+Inicie a aplicação: java StreamingMusica
