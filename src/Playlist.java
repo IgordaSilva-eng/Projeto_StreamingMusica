@@ -16,6 +16,11 @@ public class Playlist {
 
     public String getNome() { return nome; }
 
+    // MÉTODO ADICIONADO PARA RESOLVER O ERRO DE VISIBILIDADE
+    public ArrayList<Musica> getMusicas() {
+        return musicas;
+    }
+
     public void adicionarMusica(Musica m) {
         if (m != null) musicas.add(m);
     }
