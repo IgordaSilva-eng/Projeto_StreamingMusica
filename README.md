@@ -1,49 +1,47 @@
-# 🎵 Projeto Streaming de Música - Checkpoint 5
+# 🎵 Sistema de Streaming de Música
 
-Este repositório apresenta a evolução do Sistema de Streaming, agora focado na consolidação do polimorfismo avançado, validações de tipo em tempo de execução e proteção estrutural de código.
+Este projeto consiste num sistema de gestão de streaming de música desenvolvido em Java, focado na aplicação prática de conceitos de Programação Orientada a Objetos (POO) e arquitetura de software profissional.
 
-## 🎯 Evoluções do CP5 (Polimorfismo Avançado e Casting)
+## 📋 Funcionalidades
 
-Nesta etapa, o sistema deixou de ser mono-utilizador e passou a gerir múltiplas contas simultaneamente através de estruturas polimórficas:
+- **Gestão de Utilizadores**: Cadastro e login de utilizadores com distinção entre contas **Free** (com anúncios) e **Premium** (sem anúncios e com suporte a downloads).
+- **Reprodução de Conteúdo**: Sistema de reprodução para músicas e playlists com suporte a pausa e paragem.
+- **Sistema de Playlists**: Criação de playlists manuais pelos utilizadores e geração de playlists automáticas (Top 10 e Recomendadas).
+- **Interação**: Funcionalidade para curtir itens de reprodução e acompanhar o total de curtidas.
+- **Serviços Inteligentes**: Gerador de recomendações que sugere conteúdos com base no perfil do utilizador.
+- **Utilitários**: Validação rigorosa de e-mails e formatação de tempo (segundos para MM:SS).
 
-- **Listas Polimórficas**: Implementação de um `ArrayList<br.com.streaming.modelo.Usuario>` que unifica todos os tipos de conta, permitindo iterações genéricas.
-- **Validação de Tipos (`instanceof`)**: Mecanismo implementado para separar o comportamento e gerar estatísticas precisas consoante o tipo de conta (Free ou Premium) na lista genérica.
-- **Casting (Downcasting)**: Conversão segura de tipos de dados genéricos para tipos específicos, permitindo acesso a métodos exclusivos (ex: verificar o plano de um utilizador Premium).
-- **Proteção de Código (`final`)**: Blindagem de métodos críticos de negócio (validação de e-mail) e classes topo de hierarquia para impedir heranças indesejadas.
+## 🏗️ Arquitetura
 
-## 🛠️ Novas Funcionalidades
+O projeto segue uma estrutura de pacotes organizada por responsabilidades:
 
-### **Sistema Multi-Utilizador**
-- Login dinâmico que altera o estado do sistema consoante o nível de acesso do utilizador selecionado.
-- Menu segregado que reconhece e exibe a patente da conta ativa.
+- **`br.com.streaming.modelo`**: Contém as entidades principais como `ItemReproducao` (Classe Abstrata), `Musica`, `Playlist`, `Usuario`, `UsuarioFree` e `UsuarioPremium`.
+- **`br.com.streaming.servico`**: Define os contratos através das interfaces `Reproduzivel` e `Baixavel`, além da lógica de negócio em `GeradorRecomendacoes`.
+- **`br.com.streaming.util`**: Inclui as classes utilitárias `Validador` e `FormatadorTempo`.
+- **`br.com.streaming.principal`**: Contém a classe `StreamingMusica`, ponto de entrada do sistema.
 
-### **Playlists Automáticas (Herança)**
-- **Critérios Inteligentes**: Geração de listas baseadas em parâmetros como "Top Mais Tocadas", "Recomendadas" e "Recentes".
-- Atualização dinâmica varrendo o acervo global e adicionando os itens consoante a regra de negócio.
+### Conceitos de POO Aplicados:
+- **Abstração**: Uso de classes abstratas e interfaces para definir comportamentos base.
+- **Herança**: Especialização de utilizadores e itens de reprodução.
+- **Polimorfismo**: Sobrescrita de métodos para comportamentos específicos (ex: anúncios no utilizador Free).
+- **Encapsulamento**: Proteção de atributos com modificadores de acesso adequados.
 
-### **Estatísticas Globais**
-- Relatório em tempo real do sistema, contabilizando a percentagem de reproduções divididas entre contas Free e Premium, além da contagem total de anúncios exibidos.
+## 🚀 Como Executar
 
-## 🏗️ Estrutura do Código (Trechos Relevantes)
+1. **Requisitos**: Certifique-se de ter o Java JDK 17 ou superior instalado.
+2. **Organização**: Mantenha os arquivos dentro da estrutura de pastas correspondente aos pacotes (ex: `src/br/com/streaming/modelo/...`).
+3. **Compilação**: Compile o projeto a partir da pasta raiz utilizando `javac br/com/streaming/principal/StreamingMusica.java`.
+4. **Execução**: Execute o sistema com o comando `java br.com.streaming.principal.StreamingMusica`.
 
-### ArrayList Polimórfico e `instanceof`
-O cálculo de estatísticas exemplifica a iteração sobre uma lista genérica e a identificação do objeto real em memória:
+## 👤 Autor
+- **Nome**: Igor da Silva Alves Correa
+- **RA**: 41885163
 
-```java
-// Em StreamingMusica.java
-for (br.com.streaming.modelo.Usuario u : usuarios) {
-    if (u instanceof UsuarioPremium) {
-        premiumUsers++;
-        premiumRep += u.getTotalReproducoes();
-    } else if (u instanceof br.com.streaming.modelo.UsuarioFree) {
-        freeUsers++;
-        freeRep += u.getTotalReproducoes();
-    }
-}
+## 🗓️ Histórico
 
-🚀 Como Executar
-Certifique-se de ter o JDK instalado.
-
-Compile todos os ficheiros: javac *.java
-
-Inicie a aplicação: java StreamingMusica
+- **Checkpoint 1**: Definição das classes base e atributos iniciais.
+- **Checkpoint 2**: Implementação de herança entre tipos de utilizadores.
+- **Checkpoint 3**: Criação do sistema de playlists e acervo inicial.
+- **Checkpoint 4**: Desenvolvimento da interface via consola e menus interativos.
+- **Checkpoint 5**: Refatoração para arquitetura de pacotes profissional.
+- **Checkpoint 6**: Implementação final de interfaces, serviços de recomendação e polimorfismo avançado.
