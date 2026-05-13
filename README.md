@@ -6,7 +6,7 @@ Este repositório apresenta a evolução do Sistema de Streaming, agora focado n
 
 Nesta etapa, o sistema deixou de ser mono-utilizador e passou a gerir múltiplas contas simultaneamente através de estruturas polimórficas:
 
-- **Listas Polimórficas**: Implementação de um `ArrayList<Usuario>` que unifica todos os tipos de conta, permitindo iterações genéricas.
+- **Listas Polimórficas**: Implementação de um `ArrayList<br.com.streaming.modelo.Usuario>` que unifica todos os tipos de conta, permitindo iterações genéricas.
 - **Validação de Tipos (`instanceof`)**: Mecanismo implementado para separar o comportamento e gerar estatísticas precisas consoante o tipo de conta (Free ou Premium) na lista genérica.
 - **Casting (Downcasting)**: Conversão segura de tipos de dados genéricos para tipos específicos, permitindo acesso a métodos exclusivos (ex: verificar o plano de um utilizador Premium).
 - **Proteção de Código (`final`)**: Blindagem de métodos críticos de negócio (validação de e-mail) e classes topo de hierarquia para impedir heranças indesejadas.
@@ -31,11 +31,11 @@ O cálculo de estatísticas exemplifica a iteração sobre uma lista genérica e
 
 ```java
 // Em StreamingMusica.java
-for (Usuario u : usuarios) {
+for (br.com.streaming.modelo.Usuario u : usuarios) {
     if (u instanceof UsuarioPremium) {
         premiumUsers++;
         premiumRep += u.getTotalReproducoes();
-    } else if (u instanceof UsuarioFree) {
+    } else if (u instanceof br.com.streaming.modelo.UsuarioFree) {
         freeUsers++;
         freeRep += u.getTotalReproducoes();
     }
