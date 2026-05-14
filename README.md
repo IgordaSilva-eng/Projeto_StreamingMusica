@@ -35,13 +35,18 @@ O projeto segue uma estrutura de pacotes organizada por responsabilidades:
 
 ## 👤 Autor
 - **Nome**: Igor da Silva Alves Correa
-- **RA**: 41885163
+- **RGM**: 41885163
 
 ## 🗓️ Histórico
 
-- **Checkpoint 1**: Definição das classes base e atributos iniciais.
-- **Checkpoint 2**: Implementação de herança entre tipos de utilizadores.
-- **Checkpoint 3**: Criação do sistema de playlists e acervo inicial.
-- **Checkpoint 4**: Desenvolvimento da interface via consola e menus interativos.
-- **Checkpoint 5**: Refatoração para arquitetura de pacotes profissional.
+- **Checkpoint 1**: Criação da base do sistema de streaming e fundamentos de programação.
+    - **Tópicos Praticados**: Estruturas de controle (if/else, switch, loops), declaração de métodos (parâmetros e retorno), manipulação e validação de Strings, armazenamento de dados com Arrays e ArrayList.
+- **Checkpoint 2**: Definição de classes base, atributos e modelagem inicial.
+    - **Tópicos Praticados**: Criação de classes personalizadas, atributos e métodos de instância, uso da palavra-chave `this`, instanciação de objetos e modelagem orientada a objetos.
+- **Checkpoint 3**: Implementação de sistema de playlists, acervo e proteção de dados.
+    - **Tópicos Praticados**: Modificadores de acesso (private, public, protected), Getters e Setters, validações em métodos, construtores (padrão, parametrizados e sobrecarga), palavra-chave `this()` e inicialização robusta de objetos.
+- **Checkpoint 4**: Implementação de herança entre utilizadores e interface via consola.
+    - **Tópicos Praticados**: Conceito de herança, palavras-chave `extends` e `super`, hierarquias de classes, reutilização de código, sobrecarga de métodos (overloading) e sobrescrita de métodos (overriding).
+- **Checkpoint 5**: Refatoração para arquitetura de pacotes profissional e aplicação de polimorfismo.
+    - **Tópicos Praticados**: Sobrescrita de métodos com `@Override`, polimorfismo em ação, casting (upcasting e downcasting), operador `instanceof`, palavra-chave `final` e uso de listas polimórficas.
 - **Checkpoint 6**: Implementação final de interfaces, serviços de recomendação e polimorfismo avançado.
